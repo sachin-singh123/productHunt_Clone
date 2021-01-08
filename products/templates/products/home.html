@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for product in products.all %}
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">	
+</head>
+
+<div class ="row pt-3">
+	<div class="col-2" onclick="window.location='{% url 'detail' product.id %}' " style="cursor:pointer;">
+		<img src ="{{ product.image.url }}" class ="img-fluid"/>
+	</div>
+
+	<div class="col-6" onclick="window.location='{% url 'detail' product.id %}' ">
+		<h1>{{ product.title }}</h1>
+		<p>{{ product.summary }}</p>
+	</div>
+
+
+	<div class="col-4">
+		<a href="javascript:{document.getElementById('upvote{{ product.id }}').submit() }"><button class="btn btn-primary btn-ig btn-block" ><i class="fas fa-thumbs-up"></i> Upvote {{ product.votes_total }}</button></a>
+	</div>
+
+</div>
+
+<form id ="upvote{{ product.id }}" method="POST" action="{% url 'upvote' product.id %}">
+{% csrf_token %}
+<input type="hidden"/>
+
+</form>
+
+
+
+{% endfor %}
+
+
+
+
+{% endblock %}
